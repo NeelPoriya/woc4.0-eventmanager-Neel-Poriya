@@ -1,2 +1,2 @@
-# woc4.0-eventmanager-Neel-Poriya
+# Event Manager Project
 Winter of Code 4.0 Project
