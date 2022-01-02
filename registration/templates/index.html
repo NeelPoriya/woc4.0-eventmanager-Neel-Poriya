@@ -1,0 +1,171 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
+    <title>Event Registraction</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <h1>EVENT <span>MANAGER</span></h1>
+        <ul>
+          <li><a href="#aboutUs"> About Us</a></li>
+          <li><a href="#register"> Register</a></li>
+        </ul>
+      </nav>
+
+      <div class="main-text">
+        <div class="super-text">Event <br />Manager</div>
+        <br />
+        <div class="typing">
+          Register <span class="typed-text"></span
+          ><span class="cursor">&nbsp;</span>
+        </div>
+      </div>
+    </header>
+    <!-- <div class="about">About us</div> -->
+
+    <section class="about-us" id="aboutUs">
+      <h2>About Us</h2>
+      <div class="small-para">
+        Creating and managing contests can be quite time consuming and hectic.
+        No worries, we at Event Manager have come for the rescue. Now, you can
+        focus on other things, and we will take care of making for your event
+        and enable participantion in your event.
+      </div>
+      <div class="row">
+        <div class="col span_1_of_3">
+          <ion-icon class="icon icon-face" name="happy-outline"></ion-icon>
+          <br />
+          <h3>Fast & Easy</h3>
+          <br />
+          <div class="para">
+            With our service, you can create new events and let other people
+            participate in no time. Each user who enters the site, will be able
+            to choose one of the upcoming contests and after registration, user
+            will get a notification at their provided mobile number. They will
+            be provided with the event ID and password which is unique for every
+            event.
+          </div>
+        </div>
+        <div class="col span_1_of_3">
+          <ion-icon class="icon icon-alarm" name="alarm-outline"></ion-icon>
+          <br />
+          <h3>Quick Remainders</h3>
+          <br />
+          <div class="para">
+            Each participant will get all the event details through a message on
+            their provided mobile number, using these they will be able to look
+            at the dashboard and see which event they are part of. Also, we will
+            provide a remainder message before an hour of beginning of the
+            event.
+          </div>
+        </div>
+        <div class="col span_1_of_3">
+          <ion-icon class="icon icon-heart" name="heart"></ion-icon>
+          <br />
+          <h3>Trust worthy</h3>
+          <br />
+          <div class="para">
+            The data you provide will only be visible to the admin, else no one
+            can have access to the information you provide. So, your privacy is
+            100% protected. We assure you that your name and email will be the
+            only thing visible to the event organisers as well. For more
+            information about privary security, feel free to contact us.
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="forms" id="register">
+      <h2>Create Your Event</h2>
+      <div class="row">
+        <div class="links span_1_of_3">
+          <ion-icon class="icon icon-calender" name="today-outline"></ion-icon
+          ><br />
+          <a href="#">Event Registration</a>
+        </div>
+        <div class="links span_1_of_3">
+          <ion-icon
+            class="icon icon-participant"
+            name="person-add-outline"
+          ></ion-icon
+          ><br />
+          <a href="#">Participant Registration</a>
+        </div>
+        <div class="links span_1_of_3">
+          <ion-icon class="icon icon-file" name="reader-outline"></ion-icon
+          ><br />
+          <a href="#"> Event Dashboard </a>
+        </div>
+      </div>
+    </section>
+    <br /><br />
+    <div class="space">&nbsp;</div>
+  </body>
+  <script>
+    const typedTextSpan = document.querySelector(".typed-text");
+    const cursorSpan = document.querySelector(".cursor");
+
+    const textArray = [
+      "Coding Contests",
+      "Hackthons",
+      "Game Jams",
+      "a lot more!",
+    ];
+    const typingDelay = 75;
+    const erasingDelay = 100;
+    const newTextDelay = 500; // Delay between current and next text
+    let textArrayIndex = 0;
+    let charIndex = 0;
+
+    function type() {
+      if (charIndex < textArray[textArrayIndex].length) {
+        if (!cursorSpan.classList.contains("typing"))
+          cursorSpan.classList.add("typing");
+        typedTextSpan.textContent +=
+          textArray[textArrayIndex].charAt(charIndex);
+        charIndex++;
+        setTimeout(type, typingDelay);
+      } else {
+        cursorSpan.classList.remove("typing");
+        setTimeout(erase, newTextDelay);
+      }
+    }
+
+    function erase() {
+      if (charIndex > 0) {
+        if (!cursorSpan.classList.contains("typing"))
+          cursorSpan.classList.add("typing");
+        typedTextSpan.textContent = textArray[textArrayIndex].substring(
+          0,
+          charIndex - 1
+        );
+        charIndex--;
+        setTimeout(erase, erasingDelay);
+      } else {
+        cursorSpan.classList.remove("typing");
+        textArrayIndex++;
+        if (textArrayIndex >= textArray.length) textArrayIndex = 0;
+        setTimeout(type, typingDelay + 1100);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      // On DOM Load initiate the effect
+      if (textArray.length) setTimeout(type, newTextDelay + 250);
+    });
+  </script>
+</html>
