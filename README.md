@@ -31,13 +31,13 @@ py manage.py runserver
 
 5. You can visit `localhost:8000/events` or `127.0.0.1:8000/events`, and you'll be good to go.
 
-# You'r Everything
+# You're Everything
 
-1. You'r the Admin : To see the database and make changes, you need to have one "Super User" as django says it.
+1. You're the Admin : To see the database and make changes, you need to have one "Super User" as django says it.
    a. To create one (its okay if you keep your server running), open up a new terminal window in the same directory where you have downloaded the project files, and write the following command :
 
 ```
 py manage.py createsuperuser
 ```
 
-    b. Upon hitting enter you will be asked to provide username, email, and password (it's okay if you provide very small username and password, just make something which you can remember). Then head to this URL, `localhost:8000/admin`. Sign with your username and password, and you will be taken to admin site. Here, you can make any changes to the database like create entries, delete, modify and all.
+   b. Upon hitting enter you will be asked to provide username, email, and password (it's okay if you provide very small username and password, just make something which you can remember). Then head to this URL, `localhost:8000/admin`. Sign with your username and password, and you will be taken to admin site. Here, you can make any changes to the database like create entries, delete, modify and all.
