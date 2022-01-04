@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from .forms import EventForm
-from .models import Event
+from .forms import EventForm, ParticipantForm, EventDashboardForm
+from .models import Event, Participant
 
-# Create your views here.
+
 def events(request):
     return render(request, 'index.html');
 
@@ -21,3 +21,44 @@ def events_register(request):
         form = EventForm()
 
     return render(request, 'event_register.html', {'form': form})
+
+
+def show_events(request):
+    if request.method == 'POST':
+        participant_form = ParticipantForm(request.POST)
+        if participant_form.is_valid():
+            cleaned = participant_form.cleaned_data
+            participant = Participant(name=cleaned['name'], mobile_number=cleaned['mobile_number'], email=cleaned['email'], event=cleaned['event'], registration_type=cleaned['registration_type'], no_of_people=cleaned['no_of_people'])
+            participant.save()
+            participant_form = ParticipantForm()
+    else:
+        participant_form = ParticipantForm()
+        
+    return render(request, 'show_events.html', {
+        'events': Event.objects.all(),
+        'form': participant_form,
+    })
+
+
+def event_dashboard(request):
+    all_participants = []
+    if request.method == 'POST':
+        dashboard_form = EventDashboardForm(request.POST)
+        if dashboard_form.is_valid():
+            cleaned = dashboard_form.cleaned_data
+            if len(Event.objects.filter(id=cleaned['event_ID'])) > 0:
+                event_details = Event.objects.filter(id=cleaned['event_ID'])[0]
+            #check if event is persent or not
+            #check if password is valid or not
+                for participant in Participant.objects.all():
+                    if participant.event == event_details:
+                        all_participants.append(participant)
+            # for par in all_participants:
+            #     print(par.id)
+    else:
+        dashboard_form = EventDashboardForm()
+
+    return render(request, 'event_dashboard.html', {
+        'form': dashboard_form,
+        'participants': all_participants,
+    })

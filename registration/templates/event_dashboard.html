@@ -14,27 +14,44 @@
     /> -->
     <link rel="stylesheet" href="{% static 'css/style-event-dashboard.css'%}" />
     <title>Event Registration</title>
-    <script>
-      function fun(x) {
-        document.getElementById(x).type = "date";
-      }
-      function fun2(x) {
-        document.getElementById(x).type = "time";
-      }
-    </script>
   </head>
   <body>
     <section class="event-form">
       <a href="/events/" class="back">👈🏼Back</a>
       <div class="row">
-        <div class="heading">Event Registration</div>
+        <div class="heading">Event Dashboard</div>
       </div>
       <div class="row">
         <form method="POST" action="">
           {% csrf_token %} {% for field in form %} {{field}}<br />
           {% endfor %}
-          <button class="btn" type="submit">Set up this Event!</button>
+          <button class="btn" type="submit">Submit</button>
         </form>
+
+        <div>
+          {% if participants %}
+          <table border="2px">
+            <tr>
+              <th>Participant ID</th>
+              <th>Name</th>
+              <th>Contact No.</th>
+              <th>Email ID</th>
+              <th>Participation Type</th>
+              <th>No. of People</th>
+            </tr>
+            {% for participant in participants %}
+            <tr>
+              <td>{{participant.id}}</td>
+              <td>{{participant.name}}</td>
+              <td>{{participant.mobile_number}}</td>
+              <td>{{participant.email}}</td>
+              <td>{{participant.registration_type}}</td>
+              <td>{{participant.no_of_people}}</td>
+            </tr>
+            {% endfor %}
+          </table>
+          {% endif %}
+        </div>
       </div>
     </section>
   </body>

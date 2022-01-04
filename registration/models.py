@@ -1,6 +1,5 @@
 from django.db import models
 
-# Create your models here.
 class Event(models.Model):
     event_name = models.CharField(max_length=30)
     description = models.TextField(max_length=400)
@@ -17,4 +16,22 @@ class Event(models.Model):
 
     def __str__(self):
         return self.event_name
+
+    def get_foreign_fields(self):
+        return [getattr(self, f.name) for f in self._meta.fields if type(f) == models.fields.related.ForeignKey]
+
+
+class Participant(models.Model):
+    name = models.CharField(max_length=30)
+    mobile_number = models.IntegerField()
+    email = models.EmailField()
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    registration_type = models.CharField(max_length=30, default='Individual',choices=(
+        ('Individual', 'Individual'),
+        ('Group', 'Group'),
+    ))
+    no_of_people = models.IntegerField(default=1)
+
+    def __str__(self):
+        return self.name
     

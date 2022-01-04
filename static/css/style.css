@@ -97,6 +97,16 @@ img {
   font-size: 150px;
   font-weight: 400;
 }
+
+.clearfix{zoom : 1}
+.clearfix:after{
+    content: '.';
+    clear: both;
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+
 .typing {
   font-size: 76px;
 }
@@ -134,10 +144,11 @@ span .cursor {
 .row {
   margin: 0px auto;
   width: 90%;
+  height: auto;
 }
 .col {
   float: left;
-  height: 45vh; /* border:
+  /*height: 45vh; /* border:
 2px solid black; */
   text-align: center;
   padding: 45px;
