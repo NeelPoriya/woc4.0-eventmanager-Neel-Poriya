@@ -13,6 +13,7 @@ class Event(models.Model):
     host_email = models.EmailField()
     host_password = models.CharField(max_length=30)
     status = models.IntegerField()
+    poster_link = models.CharField(max_length=100000)
 
     def __str__(self):
         return self.event_name
@@ -25,8 +26,8 @@ class Participant(models.Model):
     name = models.CharField(max_length=30)
     mobile_number = models.IntegerField()
     email = models.EmailField()
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    registration_type = models.CharField(max_length=30, default='Individual',choices=(
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, default='Choose Your Event')
+    registration_type = models.CharField(max_length=30, default='Choose Participation Type',choices=(
         ('Individual', 'Individual'),
         ('Group', 'Group'),
     ))

@@ -13,26 +13,9 @@
       rel="stylesheet"
     /> -->
     <link rel="stylesheet" href="{% static 'css/style-event-dashboard.css'%}" />
+    <link rel="stylesheet" href="{% static 'css/cards.css' %}" />
     <title>Event Registration</title>
-    <script>
-      function fun(x) {
-        document.getElementById(x).type = "date";
-      }
-      function fun2(x) {
-        document.getElementById(x).type = "time";
-      }
-      function hideThis() {
-        var x = document.getElementById("hideme");
-        var y = document.getElementById("changeText");
-        if (x.style.display === "none") {
-          x.style.display = "block";
-          y.innerHTML = "Hide All Events";
-        } else {
-          x.style.display = "none";
-          y.innerHTML = "Show All Events";
-        }
-      }
-    </script>
+    <link href="{% static 'js/input.js' %}" />
   </head>
   <body>
     <section class="event-form">
@@ -47,28 +30,35 @@
         </form>
       </div>
     </section>
-    <button onclick="hideThis()" id="changeText" class="btn">
-      Hide All Events
-    </button>
-    <div id="hideme">
-      Here you can find events for which you can register.
-      <br />
-      <hr />
-      {% for event in events %}
-      <b>{{event.event_name}}</b>
-      <br /><br />
-      <b>{{event.description}}</b>
-      <br /><br />
-      <b>Dates</b>: {{event.from_date}}-{{event.to_date}}
-      <br />
-      <b>Time</b>: {{event.from_time}}-{{event.to_time}}
-      <br />
-      <b>Registration ends at</b>: {{event.registration_end_date}}
-      {{event.registration_end_time}}
-      <br />
-      <b>Venue</b>: {{ event.location }}
-      <hr />
-      {% endfor %}
+
+    {% if events %}
+    <div class="heading">Events in which you can register.</div>
+    {% for event in events%}
+    <div class="card">
+      <div
+        class="left-photo"
+        style="background-image: url('{{ event.poster_link }}');"
+      ></div>
+      <div class="right-info">
+        <div class="heading-cards">{{event.event_name}}</div>
+        <div class="desc">{{event.description}}</div>
+        <div class="other">
+          <div class="date">
+            <b>Dates: </b>{{event.from_date}}-{{event.to_date}}
+          </div>
+          <div class="time">
+            <b>Time: </b>{{event.from_time}}-{{event.to_time}}
+          </div>
+          <div class="reg-end">
+            <b>Regisration Ends at: </b>{{event.registration_end_date}}
+            {{event.registration_end_time}}
+          </div>
+          <div class="venue"><b>Venue: </b>{{event.location}}</div>
+        </div>
+      </div>
     </div>
+    {% endfor %} {% else %}
+    <div class="heading">No events availabe.</div>
+    {% endif %}
   </body>
 </html>

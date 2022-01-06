@@ -28,7 +28,8 @@ class EventForm(forms.ModelForm):
             'registration_end_time': forms.TextInput(attrs={'placeholder': 'Registration End Time', 'onfocus':'fun2(this.id)'}),
             'host_email': forms.EmailInput(attrs={'placeholder':'Email ID'}),
             'host_password':forms.PasswordInput(attrs={'placeholder':'Email Password'}),
-            'status': forms.TextInput(attrs={'placeholder':'Status'})
+            'status': forms.TextInput(attrs={'placeholder':'Status'}),
+            'poster_link': forms.TextInput(attrs={'placeholder':'Poster Link'}),
         }
 
 
@@ -42,7 +43,7 @@ class ParticipantForm(forms.ModelForm):
             'email': forms.EmailInput(attrs={'placeholder':'Email ID'}),
             'event': forms.Select(attrs={'placeholder':'Event'}),
             'regestration_type': forms.Select(attrs={'placeholder':'Registration Type'}),
-            'no_of_people': forms.TextInput(attrs={'placeholder': 'No. of people'})
+            'no_of_people': forms.TextInput(attrs={'placeholder': 'No. of people'}),
         }
 
 

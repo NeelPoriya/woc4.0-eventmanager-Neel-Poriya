@@ -1,3 +1,4 @@
+import datetime
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .forms import EventForm, ParticipantForm, EventDashboardForm
@@ -14,7 +15,7 @@ def events_register(request):
         form = EventForm(request.POST)
         if form.is_valid():
             cleaned = form.cleaned_data
-            eve = Event(event_name=cleaned['event_name'], description=cleaned['description'], location=cleaned['location'], from_date=cleaned['from_date'], from_time=cleaned['from_time'], to_date=cleaned['to_date'], to_time=cleaned['to_time'], registration_end_date=cleaned['registration_end_date'], registration_end_time=cleaned['registration_end_time'], host_email=cleaned['host_email'], host_password=cleaned['host_password'], status=cleaned['status'])
+            eve = Event(event_name=cleaned['event_name'], description=cleaned['description'], location=cleaned['location'], from_date=cleaned['from_date'], from_time=cleaned['from_time'], to_date=cleaned['to_date'], to_time=cleaned['to_time'], registration_end_date=cleaned['registration_end_date'], registration_end_time=cleaned['registration_end_time'], host_email=cleaned['host_email'], host_password=cleaned['host_password'], status=cleaned['status'], poster_link=cleaned['poster_link'])
             eve.save()
             form = EventForm()
     else:
@@ -28,7 +29,8 @@ def show_events(request):
         participant_form = ParticipantForm(request.POST)
         if participant_form.is_valid():
             cleaned = participant_form.cleaned_data
-            participant = Participant(name=cleaned['name'], mobile_number=cleaned['mobile_number'], email=cleaned['email'], event=cleaned['event'], registration_type=cleaned['registration_type'], no_of_people=cleaned['no_of_people'])
+            print('Poster Link : ',cleaned['poster_link'])
+            participant = Participant(name=cleaned['name'], mobile_number=cleaned['mobile_number'], email=cleaned['email'], event=cleaned['event'], registration_type=cleaned['registration_type'], no_of_people=cleaned['no_of_people'], poster_link=cleaned['poster_link'])
             participant.save()
             participant_form = ParticipantForm()
     else:
@@ -53,8 +55,6 @@ def event_dashboard(request):
                 for participant in Participant.objects.all():
                     if participant.event == event_details:
                         all_participants.append(participant)
-            # for par in all_participants:
-            #     print(par.id)
     else:
         dashboard_form = EventDashboardForm()
 
