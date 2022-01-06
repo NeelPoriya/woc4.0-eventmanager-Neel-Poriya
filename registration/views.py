@@ -3,6 +3,28 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from .forms import EventForm, ParticipantForm, EventDashboardForm
 from .models import Event, Participant
+from django.core.mail import send_mail
+from Event_Manager import settings
+
+def sendMail(to, event):
+    send_mail("Thanks for Registration",
+    f"""
+        Here are the details for the event:
+        Event ID: {event.id}
+        Event Name: {event.event_name}
+        Event Description: {event.description}
+        Event Location: {event.location}
+        Event Starts from: {event.from_date} {event.from_time}
+        Event Ends at: {event.to_date} {event.to_time}
+        Event Registration Ends at: {event.registration_end_date} {event.registration_end_time}
+        Event Host Email: {event.host_email}
+        Event Host Password: {event.host_password}
+        Event Status: {event.status}
+    """,
+    settings.EMAIL_HOST,
+    [to],
+    fail_silently=False
+    )
 
 
 def events(request):
@@ -15,6 +37,7 @@ def events_register(request):
             cleaned = form.cleaned_data
             eve = Event(event_name=cleaned['event_name'], description=cleaned['description'], location=cleaned['location'], from_date=cleaned['from_date'], from_time=cleaned['from_time'], to_date=cleaned['to_date'], to_time=cleaned['to_time'], registration_end_date=cleaned['registration_end_date'], registration_end_time=cleaned['registration_end_time'], host_email=cleaned['host_email'], host_password=cleaned['host_password'], status=cleaned['status'], poster_link=cleaned['poster_link'])
             eve.save()
+            sendMail(cleaned['host_email'], eve)
             form = EventForm()
     else:
         form = EventForm()
