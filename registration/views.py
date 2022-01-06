@@ -6,11 +6,9 @@ from .models import Event, Participant
 
 
 def events(request):
-    return render(request, 'index.html');
-
+    return render(request, 'index.html')
 
 def events_register(request):
-    
     if request.method == 'POST':
         form = EventForm(request.POST)
         if form.is_valid():
@@ -29,8 +27,7 @@ def show_events(request):
         participant_form = ParticipantForm(request.POST)
         if participant_form.is_valid():
             cleaned = participant_form.cleaned_data
-            print('Poster Link : ',cleaned['poster_link'])
-            participant = Participant(name=cleaned['name'], mobile_number=cleaned['mobile_number'], email=cleaned['email'], event=cleaned['event'], registration_type=cleaned['registration_type'], no_of_people=cleaned['no_of_people'], poster_link=cleaned['poster_link'])
+            participant = Participant(name=cleaned['name'], mobile_number=cleaned['mobile_number'], email=cleaned['email'], event=cleaned['event'], registration_type=cleaned['registration_type'], no_of_people=cleaned['no_of_people'])
             participant.save()
             participant_form = ParticipantForm()
     else:
@@ -50,8 +47,6 @@ def event_dashboard(request):
             cleaned = dashboard_form.cleaned_data
             if len(Event.objects.filter(id=cleaned['event_ID'])) > 0:
                 event_details = Event.objects.filter(id=cleaned['event_ID'])[0]
-            #check if event is persent or not
-            #check if password is valid or not
                 for participant in Participant.objects.all():
                     if participant.event == event_details:
                         all_participants.append(participant)

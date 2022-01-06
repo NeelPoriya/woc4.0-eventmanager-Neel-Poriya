@@ -13,6 +13,7 @@
       rel="stylesheet"
     /> -->
     <link rel="stylesheet" href="{% static 'css/style-event-dashboard.css'%}" />
+    <link rel="stylesheet" href="{% static 'css/cards.css' %}" />
     <title>Event Registration</title>
   </head>
   <body>
@@ -23,36 +24,44 @@
       </div>
       <div class="row">
         <form method="POST" action="">
-          {% csrf_token %} {% for field in form %} {{field}}<br />
+          {% csrf_token %} {% for field in form %} {{field}} {{field.errors}}
           {% endfor %}
+          <br>
           <button class="btn" type="submit">Submit</button>
         </form>
-
+      </div>
+      <br><br>
         <div>
           {% if participants %}
-          <table border="2px">
-            <tr>
-              <th>Participant ID</th>
-              <th>Name</th>
-              <th>Contact No.</th>
-              <th>Email ID</th>
-              <th>Participation Type</th>
-              <th>No. of People</th>
-            </tr>
             {% for participant in participants %}
-            <tr>
-              <td>{{participant.id}}</td>
-              <td>{{participant.name}}</td>
-              <td>{{participant.mobile_number}}</td>
-              <td>{{participant.email}}</td>
-              <td>{{participant.registration_type}}</td>
-              <td>{{participant.no_of_people}}</td>
-            </tr>
+            <div class="card" style="text-align: left">
+              <div
+                class="left-photo"
+                style="background-image: url('https://jooinn.com/images/hdr-landscape-1.jpg');"
+              ></div> 
+              <div class="right-info">
+                <div class="heading-cards" style="font-size: 200%; margin-bottom:-20px">{{participant.name}}</div>
+                <div class="desc">&nbsp;</div>
+                <div class="other">
+                  <div class="date">
+                    <b>Email: </b>{{participant.email}}
+                  </div>
+                  <div class="time">
+                    <b>Mobile Number: </b>{{participant.mobile_number}}
+                  </div>
+                  <div class="reg-end">
+                    <b>Participation Type: </b>{{participant.registration_type}}
+                    {{event.registration_end_time}}
+                  </div>
+                  <div class="venue"><b>No. of people: </b>{{participant.no_of_people}}</div>
+                </div>
+              </div>
+            </div>
             {% endfor %}
-          </table>
+          {% else %}
+            <h1 style="font-weight: 300;">No Participants Found.</h1>
           {% endif %}
         </div>
-      </div>
     </section>
   </body>
 </html>

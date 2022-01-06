@@ -14,7 +14,7 @@
     /> -->
     <link rel="stylesheet" href="{% static 'css/style-event-dashboard.css'%}" />
     <link rel="stylesheet" href="{% static 'css/cards.css' %}" />
-    <title>Event Registration</title>
+    <title>Participant Registration</title>
     <link href="{% static 'js/input.js' %}" />
   </head>
   <body>
@@ -25,14 +25,16 @@
       </div>
       <div class="row">
         <form method="POST" action="">
-          {% csrf_token %} {% for field in form %} {{field}} <br />{% endfor %}
+          {% csrf_token %} {% for field in form %} {{field}} {{field.errors}}{% endfor %}
+          <br>
           <button class="btn" type="submit">Submit</button>
         </form>
       </div>
     </section>
 
     {% if events %}
-    <div class="heading">Events in which you can register.</div>
+    <div class="heading">Events in which you can register.{{form.non_field_errors}}</div>
+    
     {% for event in events%}
     <div class="card">
       <div

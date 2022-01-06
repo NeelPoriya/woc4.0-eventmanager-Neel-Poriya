@@ -14,8 +14,8 @@ body {
 
 body {
   background-image: linear-gradient(
-      rgba(54, 27, 40, 0.6),
-      rgba(54, 27, 40, 0.6)
+      rgba(7, 26, 14, 0.6),
+      rgba(7, 26, 14, 0.5)
     ),
     url("./../images/back-2.jpg");
   background-position: center;
@@ -45,8 +45,8 @@ body {
   margin-top: 12px;
   font-size: 20px;
   font-family: "livvic";
-  background-color: #fd79bb;
-  border: 2px solid #fd79bb;
+  background-color: #39ca74;
+  border: 2px solid #39ca74;
   border-radius: 100px;
   color: #000;
   padding: 10px 80px;
@@ -114,8 +114,21 @@ textarea:hover {
   width: 100px;
   padding: 5px 5px 8px 0;
   border-radius: 100px;
-  background-color: rgb(253, 121, 187);
+  background-color: #39ca74;
   color: black;
   text-decoration: none;
   transform: translate(-300px, -50px);
+}
+
+.errorlist {
+  padding: 0;
+  margin: 0;
+}
+
+.errorlist li {
+  display: inline;
+  color: rgb(2, 2, 2);
+  border-radius: 30px;
+  padding: 0 20px;
+  background-color: rgba(255, 255, 255, 0.836);
 }

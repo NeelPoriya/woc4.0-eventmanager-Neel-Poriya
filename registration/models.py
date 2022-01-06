@@ -1,4 +1,6 @@
 from django.db import models
+import datetime
+
 
 class Event(models.Model):
     event_name = models.CharField(max_length=30)
@@ -26,12 +28,12 @@ class Participant(models.Model):
     name = models.CharField(max_length=30)
     mobile_number = models.IntegerField()
     email = models.EmailField()
-    event = models.ForeignKey(Event, on_delete=models.CASCADE, default='Choose Your Event')
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
     registration_type = models.CharField(max_length=30, default='Choose Participation Type',choices=(
         ('Individual', 'Individual'),
         ('Group', 'Group'),
     ))
-    no_of_people = models.IntegerField(default=1)
+    no_of_people = models.IntegerField()
 
     def __str__(self):
         return self.name

@@ -31,8 +31,9 @@
       </div>
       <div class="row">
         <form method="POST" action="">
-          {% csrf_token %} {% for field in form %} {{field}}<br />
-          {% endfor %}
+          {% csrf_token %} {% for field in form %} {{field}} 
+           {{field.errors}} {% endfor %}
+           <br>
           <button class="btn" type="submit">Set up this Event!</button>
         </form>
       </div>
