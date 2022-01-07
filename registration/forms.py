@@ -161,7 +161,7 @@ class EventDashboardForm(forms.Form):
         if not event:
             self.add_error('event_ID', 'No Event found')
 
-        if event[0].host_password != cleaned_data['host_password']:
+        if event and event[0].host_password != cleaned_data['host_password']:
             self.add_error('host_password', 'Incorrect Answer')
 
 

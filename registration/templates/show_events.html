@@ -14,6 +14,7 @@
     /> -->
     <link rel="stylesheet" href="{% static 'css/style-event-dashboard.css'%}" />
     <link rel="stylesheet" href="{% static 'css/cards.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/responsive-register.css' %}" />
     <title>Participant Registration</title>
     <link href="{% static 'js/input.js' %}" />
   </head>
@@ -25,8 +26,10 @@
       </div>
       <div class="row">
         <form method="POST" action="">
-          {% csrf_token %} {% for field in form %} {{field}} {{field.errors}}{% endfor %}
-          <br>
+          {% csrf_token %} {% for field in form %} {{field}} {{field.errors}}
+          <!----------------- -->
+          {% endfor %}
+          <br />
           <button class="btn" type="submit">Submit</button>
         </form>
       </div>
@@ -34,7 +37,7 @@
 
     {% if events %}
     <div class="heading">Events in which you can register.</div>
-    
+
     {% for event in events%}
     <div class="card">
       <div

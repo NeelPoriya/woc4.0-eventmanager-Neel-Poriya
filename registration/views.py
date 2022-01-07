@@ -6,10 +6,12 @@ from .models import Event, Participant
 from django.core.mail import send_mail
 from Event_Manager import settings
 from twilio.rest import Client
+from decouple import config
 
 def send_message(mobile, event):
-    account_sid = 'ACf7dde42890ed5500f12a3a3d336845f0' 
-    auth_token = 'ac46a36ed3e6bff0b1d5918ec9d2cc24' 
+    account_sid = "ACf7dde42890ed5500f12a3a3d336845f0"
+    # don't copy this, it is generated new everytime I use😉
+    auth_token = "d7ce74f92c6c5617e33f4a71b83134af"
     client = Client(account_sid, auth_token) 
     
     message = client.messages.create(  
@@ -20,8 +22,6 @@ Event Password : {event.host_password}
                      from_='+14158436176',
                      to=f'+{str(mobile)}' 
                             ) 
-    
-    print(message.sid)
 
 def sendMail(to, event):
     send_mail("Thanks for Registration",

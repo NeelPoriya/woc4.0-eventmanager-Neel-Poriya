@@ -1,0 +1,84 @@
+@media (min-width: 280px) {
+  input,
+  select,
+  textarea {
+    width: 90%;
+    font-size: 15px;
+  }
+  .row {
+    width: 100%;
+  }
+  .heading {
+    margin-left: 5%;
+    width: 90%;
+    font-size: 30px;
+  }
+  .back {
+    transform: translate(-140px, -40px);
+    font-size: 15px;
+  }
+  .btn {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 424px) {
+  .back {
+    transform: translate(-190%, -140%);
+  }
+}
+
+@media (min-width: 529px) {
+  input,
+  textarea,
+  select {
+    width: 500px;
+    font-size: 20px;
+  }
+
+  .heading {
+    font-size: 40px;
+  }
+
+  .back {
+    font-size: 20px;
+  }
+
+  .btn {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 999px) {
+  input,
+  textarea,
+  select {
+    width: 504px;
+    display: block;
+    margin: 12px auto 0 auto;
+  }
+}
+
+@media (min-width: 2559px) {
+  input,
+  textarea,
+  select {
+    width: 40%;
+    display: block;
+    margin: 12px auto 0 auto;
+    font-size: 30px;
+    padding: 40px 30px;
+  }
+  .heading {
+    font-size: 60px;
+  }
+  .back {
+    font-size: 30px;
+    width: 7.5%;
+    transform: translate(-250%, -200%);
+  }
+
+  .btn {
+    font-size: 30px;
+  }
+}
