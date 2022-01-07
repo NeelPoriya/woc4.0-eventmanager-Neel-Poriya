@@ -5,6 +5,23 @@ from .forms import EventForm, ParticipantForm, EventDashboardForm
 from .models import Event, Participant
 from django.core.mail import send_mail
 from Event_Manager import settings
+from twilio.rest import Client
+
+def send_message(mobile, event):
+    account_sid = 'ACf7dde42890ed5500f12a3a3d336845f0' 
+    auth_token = 'ac46a36ed3e6bff0b1d5918ec9d2cc24' 
+    client = Client(account_sid, auth_token) 
+    
+    message = client.messages.create(  
+                    body=f"""You have registered successfully
+Event ID : {event.id}  
+Event Password : {event.host_password}
+                            """,
+                     from_='+14158436176',
+                     to=f'+{str(mobile)}' 
+                            ) 
+    
+    print(message.sid)
 
 def sendMail(to, event):
     send_mail("Thanks for Registration",
@@ -52,6 +69,7 @@ def show_events(request):
             cleaned = participant_form.cleaned_data
             participant = Participant(name=cleaned['name'], mobile_number=cleaned['mobile_number'], email=cleaned['email'], event=cleaned['event'], registration_type=cleaned['registration_type'], no_of_people=cleaned['no_of_people'])
             participant.save()
+            # send_message(participant.mobile_number, participant.event)
             participant_form = ParticipantForm()
     else:
         participant_form = ParticipantForm()

@@ -89,12 +89,24 @@ class ParticipantForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Name'}),
-            'mobile_number': forms.TextInput(attrs={'placeholder': 'Mobile Number', 'type':'number'}),
+            'mobile_number': forms.TextInput(attrs={'placeholder': 'Mobile Number with Country Code', 'type':'number'}),
             'email': forms.EmailInput(attrs={'placeholder':'Email ID'}),
             'registration_type': forms.Select(attrs={'placeholder':'Registration Type'}),
             'no_of_people': forms.TextInput(attrs={'placeholder': 'No. of people', 'type':'number'}),
         }
 
+    def has_unique_mobile_number(self, cleaned_data):
+            for participant in Participant.objects.all():
+                if participant.mobile_number == cleaned_data['mobile_number']:
+                    return False
+            return True
+
+    def has_unique_email(self, cleaned_data):
+        for participant in Participant.objects.all():
+            if participant.email == cleaned_data['email']:
+                return False
+        return True
+    
     def clean(self):
         error_found = False
         cleaned_data = super().clean()
@@ -122,12 +134,25 @@ class ParticipantForm(forms.ModelForm):
             self.add_error('no_of_people', 'No. of members should be greater than 1.')
             error_found = True
 
+        if not self.has_unique_mobile_number(cleaned_data=cleaned_data):
+            self.add_error('mobile_number', 'Mobile number should be unique.')
+
+        if not self.has_unique_email(cleaned_data=cleaned_data):
+            self.add_error('email', 'Email should be unique.')
+
+        end_date = cleaned_data['event'].registration_end_date
+        end_time = cleaned_data['event'].registration_end_time
+        reg_end = datetime.datetime(end_date.year, end_date.month, end_date.day, end_time.hour, end_time.minute, end_time.second)
+        if datetime.datetime.now() > reg_end:
+            self.add_error('event', 'Registration for this event has ended.')
+
         if error_found:
-            raise forms.ValidationError('you aint worth it')
+            raise forms.ValidationError('')
 
 class EventDashboardForm(forms.Form):
     event_ID = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder':'Event ID', 'type':'number'}))
     host_password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder':'Password'}))
+
 
     def clean(self):
         cleaned_data = super().clean()
