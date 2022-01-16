@@ -13,6 +13,7 @@ def create_contact():
     all_contacts = helper.insert_contact(all_contacts, Person)
     all_contacts_string = helper.convert_contacts_to_string(all_contacts)
     open('contacts.txt', 'w').write(all_contacts_string)
+    print('Contact Saved👍🏼')
 
 def show_all_contacts():
     all_contacts = helper.get_all_contacts(open('contacts.txt', 'r').read())
@@ -86,11 +87,11 @@ def modify_name():
         return
     
     if len(results) == 1:
-        Person['number'] = results[0]['number']
+        prev_num = results[0]['number']
         all_contacts.remove(results[0])
 
         new_name = input('Enter the new name : ').title()
-        Person['name'] = new_name
+        Person = {'name': new_name, 'number':prev_num}
 
         all_contacts = helper.insert_contact(all_contacts, Person)
 
@@ -134,14 +135,14 @@ def modify_number():
         return
     
     if len(results) == 1:
-        Person['name'] = results[0]['name']
+        prev_name = results[0]['name']
         all_contacts.remove(results[0])
 
         new_number = input('Enter the new number : ')
         while not new_number.isnumeric():
             print('Please provide a number🥺')
             new_number = input('Enter the new number : ')
-        Person['number'] = new_number
+        Person = {'name': prev_name, 'number':new_number}
 
         all_contacts = helper.insert_contact(all_contacts, Person)
 
@@ -218,7 +219,7 @@ while running:
             print("Invalid Choice")
 
     except:
-        print('Wrong Input! Try again')
+        print('Wrong Input! Try again💥💥')
         print('')
         continue
     print('')
