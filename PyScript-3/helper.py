@@ -24,7 +24,11 @@ def nearest_binary_search(li, value):
 def convert_contacts_to_string(contacts):
     res = ''
     for contact in contacts:
-        res += f"{contact['name']},{contact['number']};"
+        ans = f"{contact['name']},"
+        for num in contact['number']:
+            ans+= f"{num},"
+        ans = ans[:-1]+';'
+        res += ans
     return res
     
 #returns the contacts as list of dictionary after inserting given contact
@@ -35,7 +39,7 @@ def insert_contact(contacts, contact):
 
 #returns the list of dictionary of contacts after reading from the file
 def get_all_contacts(contacts_read):
-    return [{'name':x.split(',')[0].lstrip().rstrip(), 'number': int(x.split(',')[1])} for x in contacts_read.split(';')[:-1]]
+    return [{'name':x.split(',')[0].lstrip().rstrip(), 'number': [int(a.lstrip().rstrip()) for a in x.split(',')[1:]] } for x in contacts_read.split(';')[:-1]]
 
 #prints all the contacts there are present in the file
 def display(contacts):
@@ -46,7 +50,11 @@ def display(contacts):
             print('\t', end="")
         if len(contact['name']) < 15:
             print('\t', end='')
-        print(contact['number'])
+        for i in range(0, len(contact['number'])):
+            if i == len(contact['number'])-1:
+                print(contact['number'][i], end='\n')
+            else:
+                print(contact['number'][i], end=', ')
         ctr += 1
 
 # returns all the contacts having a given substring present in them
