@@ -1,19 +1,25 @@
 import helper
 
-Person = {'name': "", 'number': 0}
+Person = {'name': "", 'number': []}
 
 running = True
 
 def create_contact():
     print()
-    Person['name'] = input("Enter the name : ").lstrip().rstrip().title()
-    Person['number'] = int(input("Enter the number : "))
-
+    name = input("Enter the name : ").lstrip().rstrip().title()
+    number = (int(input("Enter the number : ")))
+    Person = { 'name' : name, 'number': [number]}
     all_contacts = helper.get_all_contacts(open('contacts.txt', 'r').read())
     all_contacts = helper.insert_contact(all_contacts, Person)
-    all_contacts_string = helper.convert_contacts_to_string(all_contacts)
-    open('contacts.txt', 'w').write(all_contacts_string)
-    print('Contact Saved👍🏼')
+    
+    try:
+        all_contacts_string = helper.convert_contacts_to_string(all_contacts)
+        open('contacts.txt', 'w').write(all_contacts_string)
+        print('Contact Saved👍🏼')
+    except:
+        print('🤯🤯🤯')
+
+    
 
 def show_all_contacts():
     all_contacts = helper.get_all_contacts(open('contacts.txt', 'r').read())
@@ -135,22 +141,39 @@ def modify_number():
         return
     
     if len(results) == 1:
-        prev_name = results[0]['name']
-        all_contacts.remove(results[0])
+        if len(results[0]['number']) == 1:
+            new_number = input('Enter the new number : ')
+            while not new_number.isnumeric():
+                print('Please provide a number🥺')
+                new_number = input('Enter the new number : ')
 
+            contact_ind = all_contacts.index(results[0])
+            all_contacts[contact_ind]['number'] = [int(new_number)]
+
+            all_contacts_string = helper.convert_contacts_to_string(all_contacts)
+            open('contacts.txt', 'w').write(all_contacts_string)
+            print('Contact Updated👍🏼')
+            return
+
+        ind = input("Which of the number will you like to update : ")
+        while (not ind.isnumeric()) or int(ind)<=0 or int(ind)>len(results[0]['number']):
+            print('Please provide a valid serial number🥺')
+            ind = input("Which of the number will you like to update : ")
+
+        ind = int(ind)-1
         new_number = input('Enter the new number : ')
         while not new_number.isnumeric():
             print('Please provide a number🥺')
             new_number = input('Enter the new number : ')
-        Person = {'name': prev_name, 'number':new_number}
 
-        all_contacts = helper.insert_contact(all_contacts, Person)
+        contact_ind = all_contacts.index(results[0])
+        all_contacts[contact_ind]['number'][ind] = int(new_number)
 
         all_contacts_string = helper.convert_contacts_to_string(all_contacts)
         open('contacts.txt', 'w').write(all_contacts_string)
         print('Contact Updated👍🏼')
         return
-    
+          
     print("""
 \t#####################################
 \t\tWe found these results
@@ -166,19 +189,86 @@ def modify_number():
             print('Please provide a valid serial number!🥺\n')
         choice = input('Which one do you want to delete (Enter a serial number) : ')
 
+    choice = int(choice)-1
+    if len(results[choice]['number']) == 1:
+        new_number = input('Enter the new number : ')
+        while not new_number.isnumeric():
+            print('Please provide a number🥺')
+            new_number = input('Enter the new number : ')
+
+        Person = {'name': results[choice]['name'], 'number': [int(new_number)]}
+        
+        all_contacts.remove(results[choice])
+
+        all_contacts = helper.insert_contact(all_contacts, Person)
+        all_contacts_string = helper.convert_contacts_to_string(all_contacts)
+        open('contacts.txt', 'w').write(all_contacts_string)
+        print('Contact Updated👍🏼')
+        return
+    
+    ind = input("Which of the number will you like to update : ")
+    while (not ind.isnumeric()) or int(ind)<=0 or int(ind)>len(results[choice]['number']):
+        print('Please provide a valid serial number🥺')
+        ind = input("Which of the number will you like to update : ")
+
+    ind = int(ind)-1
     new_number = input('Enter the new number : ')
     while not new_number.isnumeric():
         print('Please provide a number🥺')
         new_number = input('Enter the new number : ')
 
-    Person = {'name': results[int(choice)-1]['name'], 'number': int(new_number)}
-    
-    all_contacts.remove(results[int(choice)-1])
+    contact_ind = all_contacts.index(results[choice])
+    all_contacts[contact_ind]['number'][ind] = int(new_number)
 
-    all_contacts = helper.insert_contact(all_contacts, Person)
     all_contacts_string = helper.convert_contacts_to_string(all_contacts)
     open('contacts.txt', 'w').write(all_contacts_string)
     print('Contact Updated👍🏼')
+
+def add_another_number():
+    name = input('Enter the name : ')
+    all_contacts = helper.get_all_contacts(open('contacts.txt', 'r').read())
+    results = helper.filter(all_contacts, name)
+
+    if not results:
+        print('\nNo contacts with given name found😐')
+        return
+    
+    if len(results) == 1:
+        new_number = int(input('Enter another number : '))
+
+        contact_ind = all_contacts.index(results[0])
+        all_contacts[contact_ind]['number'].append(new_number)
+        
+        all_contacts_string = helper.convert_contacts_to_string(all_contacts)
+        open('contacts.txt', 'w').write(all_contacts_string)
+        print('Contact Updated👍🏼')
+        return
+    
+    print("""
+\t#####################################
+\t\tWe found these results
+\t#####################################\n
+\tSr.No.\t Name\t\t\tNumber""")
+    helper.display(results)
+    choice = input('\nWhich one do you want to delete (Enter a serial number) : ')
+
+    while (not choice.isnumeric()) or (int(choice) <= 0) or (int(choice) > len(results)):
+        if not choice.isnumeric():
+            print('Please provide a number!🥺\n')
+        if choice.isnumeric() and (int(choice) <= 0 or int(choice) > len(results)):
+            print('Please provide a valid serial number!🥺\n')
+        choice = input('Which one do you want to delete (Enter a serial number) : ')
+    
+    new_number = int(input('Enter another number : '))
+
+    contact_ind = all_contacts.index(results[int(choice)-1])
+    all_contacts[contact_ind]['number'].append(new_number)
+    
+    all_contacts_string = helper.convert_contacts_to_string(all_contacts)
+    open('contacts.txt', 'w').write(all_contacts_string)
+    print('Contact Updated👍🏼')
+    return
+    
 
 while running:
     print("""
@@ -188,7 +278,8 @@ while running:
 4. Delete a contact
 5. Modify a name
 6. Modify a number
-7. Exit
+7. Add another number of existing user
+8. Exit
     """)
 
     try:
@@ -213,6 +304,9 @@ while running:
             modify_number()
 
         elif choice == 7:
+            add_another_number()
+
+        elif choice == 8:
             running = False
 
         else:
