@@ -1,0 +1,74 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- <link
+      href="https://fonts.googleapis.com/css2?family=Livvic:wght@100;200;300;400;500&display=swap"
+      rel="stylesheet"
+    /> -->
+    <link rel="stylesheet" href="{% static 'css/style-event-dashboard.css'%}" />
+    <link rel="stylesheet" href="{% static 'css/cards.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/responsive-register.css' %}" />
+    <title>Event Registration</title>
+  </head>
+  <body>
+    <section class="event-form">
+      <a href="/events/" class="back">👈🏼Back</a>
+      <div class="row">
+        <div class="heading">Event Dashboard</div>
+      </div>
+      <div class="row">
+        <form method="POST" action="">
+          {% csrf_token %} {% for field in form %} {{field}} {{field.errors}}
+          <!------------------ -->
+          {% endfor %}
+          <br />
+          <button class="btn" type="submit">Submit</button>
+        </form>
+      </div>
+      <br /><br />
+      <div>
+        {% if participants %} {% for participant in participants %}
+        <div class="card" style="text-align: left">
+          <div
+            class="left-photo"
+            style="
+              background-image: url('https://jooinn.com/images/hdr-landscape-1.jpg');
+            "
+          ></div>
+          <div class="right-info">
+            <div
+              class="heading-cards"
+              style="font-size: 200%; margin-bottom: -20px"
+            >
+              {{participant.name}}
+            </div>
+            <div class="desc">&nbsp;</div>
+            <div class="other">
+              <div class="date"><b>Email: </b>{{participant.email}}</div>
+              <div class="time">
+                <b>Mobile Number: </b>{{participant.mobile_number}}
+              </div>
+              <div class="reg-end">
+                <b>Participation Type: </b>{{participant.registration_type}}
+                {{event.registration_end_time}}
+              </div>
+              <div class="venue">
+                <b>No. of people: </b>{{participant.no_of_people}}
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %} {% endif %} {% if not firsttime and not participants %}
+        <h1 style="font-weight: 300">No Participants Found.</h1>
+        {% endif %}
+      </div>
+    </section>
+  </body>
+</html>
