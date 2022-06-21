@@ -22,8 +22,7 @@ from django.conf import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('events/', include('registration.urls')),
-    path('/', events, name='event'),
+    path('', include('registration.urls')),
     re_path(r'^media/(?P<path>.*)$', serve,{'document_root':       settings.MEDIA_ROOT}), 
     re_path(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}), 
 ]
