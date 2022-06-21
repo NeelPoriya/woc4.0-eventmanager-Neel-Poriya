@@ -11,7 +11,7 @@ from decouple import config
 def send_message(mobile, event):
     account_sid = "ACf7dde42890ed5500f12a3a3d336845f0"
     # don't copy this, it is generated new everytime I use😉
-    auth_token = "d7ce74f92c6c5617e33f4a71b83134af"
+    auth_token = "dda32c16798559f5eb498d6878a36e99"
     client = Client(account_sid, auth_token) 
     
     message = client.messages.create(  
@@ -69,7 +69,7 @@ def show_events(request):
             cleaned = participant_form.cleaned_data
             participant = Participant(name=cleaned['name'], mobile_number=cleaned['mobile_number'], email=cleaned['email'], event=cleaned['event'], registration_type=cleaned['registration_type'], no_of_people=cleaned['no_of_people'])
             participant.save()
-            # send_message(participant.mobile_number, participant.event)
+            #send_message(participant.mobile_number, participant.event)
             participant_form = ParticipantForm()
     else:
         participant_form = ParticipantForm()
@@ -81,6 +81,7 @@ def show_events(request):
 
 
 def event_dashboard(request):
+    first_time = True
     all_participants = []
     if request.method == 'POST':
         dashboard_form = EventDashboardForm(request.POST)
@@ -91,10 +92,14 @@ def event_dashboard(request):
                 for participant in Participant.objects.all():
                     if participant.event == event_details:
                         all_participants.append(participant)
+            first_time = False
+
     else:
         dashboard_form = EventDashboardForm()
+        first_time = True
 
     return render(request, 'event_dashboard.html', {
         'form': dashboard_form,
         'participants': all_participants,
+        'firsttime' : first_time
     })

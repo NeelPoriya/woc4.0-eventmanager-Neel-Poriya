@@ -65,7 +65,7 @@
             </div>
           </div>
         </div>
-        {% endfor %} {% endif %} {% if field.event and not participants %}
+        {% endfor %} {% endif %} {% if not firsttime and not participants %}
         <h1 style="font-weight: 300">No Participants Found.</h1>
         {% endif %}
       </div>
