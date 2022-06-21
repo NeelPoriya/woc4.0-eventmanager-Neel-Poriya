@@ -54,7 +54,7 @@ def events_register(request):
             cleaned = form.cleaned_data
             eve = Event(event_name=cleaned['event_name'], description=cleaned['description'], location=cleaned['location'], from_date=cleaned['from_date'], from_time=cleaned['from_time'], to_date=cleaned['to_date'], to_time=cleaned['to_time'], registration_end_date=cleaned['registration_end_date'], registration_end_time=cleaned['registration_end_time'], host_email=cleaned['host_email'], host_password=cleaned['host_password'], status=cleaned['status'], poster_link=cleaned['poster_link'])
             eve.save()
-            sendMail(cleaned['host_email'], eve)
+            # sendMail(cleaned['host_email'], eve)
             form = EventForm()
     else:
         form = EventForm()
